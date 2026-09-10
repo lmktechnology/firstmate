@@ -1,0 +1,35 @@
+=== Host mount (this session, real noacl NTFS mount) ===
+C: on /c type ntfs (binary,noacl,posix=0,user,noumount,auto)
+
+=== Raw chmod behavior on this mount (proves chmod 0600 is silently a no-op) ===
+mode after chmod 0600: 644
+
+=== Reproducing the reported bug with PRE-FIX bin/fm-pr-lib.sh (base commit 3e817d3f) ===
+observed mode: 644
+RESULT: rejected -- error: could not prepare PR poll (matches reported bug)
+
+=== Verifying FIXED bin/fm-pr-lib.sh (target commit a5ae60e, this worktree) ===
+observed mode: 644
+RESULT: accepted -- fix correctly detects mode-inert mount and skips exact-mode equality check
+
+=== Full real fm_pr_poll_prepare -> fm_pr_poll_publish_prepared -> fm_pr_poll_artifacts_valid pipeline (bin/fm-pr-check.sh code path), unmodified, on this real noacl mount ===
+bash: line 6: fm_write_meta: command not found
+prepare: OK
+publish: FAILED
+artifacts valid: FAILED
+
+=== Dedicated regression tests from tests/fm-pr-check-security.test.sh (real test harness, real helpers) ===
+=== Full real fm_pr_poll_prepare -> fm_pr_poll_publish_prepared -> fm_pr_poll_artifacts_valid pipeline (bin/fm-pr-check.sh code path), unmodified, on this real noacl mount [retry with fm_write_meta helper sourced] ===
+prepare: OK
+publish: OK
+artifacts valid: OK
+/tmp/e2e-evidence-poll-state2/task-a.pr-poll mode=600 (mode may be anything -- chmod is inert on this mount; security now relies on skip-when-inert, not exact mode)
+/tmp/e2e-evidence-poll-state2/task-a.check.sh mode=700 (mode may be anything -- chmod is inert on this mount; security now relies on skip-when-inert, not exact mode)
+/tmp/e2e-evidence-poll-state2/task-a.pr-poll-registration mode=600 (mode may be anything -- chmod is inert on this mount; security now relies on skip-when-inert, not exact mode)
+ok - poll publication paths refuse symlinks and directories
+ok - live poll and custom-check artifacts require private single-link files
+ok - a device that honors chmod still gets the exact-mode private-file check
+ok - a proven mode-inert device satisfies the private-file check without weakening its other invariants
+ok - PR poll recording succeeds end to end on a device that cannot represent POSIX mode bits
+----
+failures: 0 / 5
