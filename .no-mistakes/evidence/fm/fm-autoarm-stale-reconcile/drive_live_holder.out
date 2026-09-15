@@ -1,0 +1,9 @@
+different live tagged holder WINPID: 6056
+this session's own harness WINPID: 15980
+--- product view of the different holder ---
+comm=/c/Users/msika/.no-mistakes/evidence/01M2K2NKN0TN3KFWSM1YCHZQSR/scratch-live/claude/sleep
+alive=yes
+hook rc=0 (expect 0 inert)
+lock after='win:6056' (expect unchanged win:6056)
+arm-ran present: no (expect no)
+  hook-output| 

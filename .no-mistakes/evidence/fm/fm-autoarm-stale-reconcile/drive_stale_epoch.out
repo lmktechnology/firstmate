@@ -1,0 +1,10 @@
+live claude WINPID: 15980
+hook rc=2 (expect 2 -> supervision claimed)
+lock after='win:15980' (expect win:15980)
+epoch ledger after:
+  epoch=8 owner_pid=1265524 outcome=rewake updated_at=1789495413 session_pid=win:15980 recovery_generation=fixture-generation
+  proc-starttime=37215479 cmdline-hex=6261736800433a2f55736572732f6d73696b612f2e6e6f2d6d697374616b65732f65766964656e63652f30314d324b324e4b4e30544e334b4657534d315943485a5153522f736372617463682d65706f63682f686f6d652f62696e2f666d2d636c617564652d73746f702d6175746f61726d2e736800
+arm-ran present: yes
+  hook-output| firstmate watcher wake - one supervision event needs a handling turn now.
+  hook-output| stale: fixture-win actionable
+  hook-output| Run bin/fm-wake-drain.sh first, handle the wake, then run its exact WAKE_ACK_REQUIRED --ack-through command. Until that post-handling acknowledgement, interruption leaves the wake durable for idempotent re-handling. This Stop hook owns watcher continuity: when the handling turn ends, the next needed cycle arms automatically - do NOT run bin/fm-watch-arm.sh after an ordinary wake.

@@ -1,0 +1,18 @@
+fakebin=/c/Users/msika/.no-mistakes/evidence/01M2K2NKN0TN3KFWSM1YCHZQSR/scratch-stime/fake/fakebin
+=== STIME: time-form (single field) comm/args/ppid ===
+fm_ps_comm 700 = /opt/claude/versions/2.1.220
+fm_ps_args 700 = /opt/claude/versions/2.1.220
+fm_ps_ppid 700 = 1
+=== STIME: date-form 'Sep  6' (two fields) must not truncate COMMAND ===
+fm_ps_comm 700 = /opt/claude/versions/2.1.220
+fm_ps_args 700 = /opt/claude/versions/2.1.220
+fm_ps_ppid 700 = 1
+fm_win_command 7204 = C:/Users/u/.local/bin/claude
+fm_harness_ancestry_pid (date STIME, CLAUDE_PID=7204) = win:7204
+=== path-shaped lookalike must NOT match (claude-notes) ===
+fm_win_command 5150 = C:/tools/claude-notes/helper
+fm_harness_pid_alive win:5150 -> dead (expect dead)
+=== unreadable table fail-closed ===
+ps -W fails -> alive (expect alive)
+ps -W empty -> alive (expect alive)
+readable no row -> dead (expect dead)

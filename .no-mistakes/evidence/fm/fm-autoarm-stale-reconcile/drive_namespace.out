@@ -1,0 +1,3 @@
+local pid 700 harness in cygwin table -> alive
+tagged win:700 must NOT resolve via cygwin table -> dead
+tagged win:7204 live windows harness -> alive
